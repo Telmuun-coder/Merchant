@@ -131,7 +131,9 @@ const ScanScreen = () => {
       <StatusBar backgroundColor="orange" />
       <Mood
         loading={modalLoading}
+        // loading={false}
         show={modal}
+        // show={true}
         closeModal={() => setModal(!modal)}>
         {modalError ? (
           <>
@@ -146,38 +148,24 @@ const ScanScreen = () => {
               }}
             />
           </>
-        ) : state ? (
+        ) : 
           <>
-            {/* <Image
+            <Image
               source={require('../../Image/pro.jpg')}
               style={styles.image}
-            /> */}
-            <Text style={styles.nameTitle}>НЭР</Text>
-            <Text style={styles.name}>{name}</Text>
-            <Text style={styles.nameTitle}>РЕГИСТРИЙН ДУГААР</Text>
-            <Text style={styles.name}>{register}</Text>
+            />
+            <Text style={{fontSize: 18}}>Төлөв: </Text>
+            <Text style={[{fontSize: 18},tolov === 'normal' ?{color: 'green'}:{color: 'red'}]}>
+              {tolov === 'normal' ? "Хэвийн" : 'Хэвийн бус'}
+              </Text>
             <Button
               method={() => {
-                setState(false);
+                introduce();
               }}
-              name="Шалгах"
+              name={tolov === 'normal' ? "Нэвтрүүлэх" : "Мэдэгдэх"}
             />
           </>
-        ) : tolov === 'normal' ? (
-          <>
-            <Text style={styles.ModalTitle}>Хэвийн</Text>
-            <AntiIcon name="checkcircleo" color="#40C528" size={70} />
-            <Button method={() => introduce()} name="Нэвтрүүлэх" />
-          </>
-        ) : (
-          <>
-            <Text style={[styles.ModalTitle, {color: '#E64B34'}]}>
-              Хэвийн бус
-            </Text>
-            <AntiIcon name="exclamationcircleo" color="#E64B34" size={70} />
-            <Button method={() => introduce()} name="Мэдэгдэх" />
-          </>
-        )}
+        }
       </Mood>
       <QRCodeScanner
         ref={(node) => (scanner = node)}

@@ -47,7 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     //eniig boliulahar zurag upload hiij bolood bgamdaa
-    // initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
   /**

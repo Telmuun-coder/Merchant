@@ -64,7 +64,34 @@ class Signup extends Component {
       registrationNumber: '',
       phoneNumber: '',
       password: '',
+
+      errors: {
+        cardNo: false,
+        familyName: false,
+        surName: false,
+        givenName: false,
+        registrationNumber: false,
+        phoneNumber: false,
+        password: false,
+        CardFront: false
+      }
     };
+  }
+
+  validate = () =>{
+    let rjx=/^[a-zA-Z]+$/;
+    let errors = this.state.errors;
+    errors = {
+        cardNo: this.state.cardNo == "",
+        familyName: this.state.familyName == "",
+        surName: !rjx.test(this.state.surName),
+        givenName: !rjx.test(this.state.givenName),
+        registrationNumber: !(this.state.registrationNumber.length == 10),
+        phoneNumber: this.state.phoneNumber == '',
+        password: this.state.password == '',
+        CardFront: this.state.CardFront == false
+    }
+    this.setState({errors});
   }
   onSuccess = (e) => {
     this.setState({cardNo: e.data});
@@ -94,6 +121,8 @@ class Signup extends Component {
       imageUrl: this.state.cardUri, //"images2.jpg"
     };
     console.log(datas);
+    this.validate();
+    
     this.setState({loading: true});
     let res = '';
     try {
@@ -216,6 +245,7 @@ class Signup extends Component {
                               color: 'grey',
                               marginTop: 5,
                             },
+                            this.state.errors.cardNo && {color: 'red'},
                             this.state.scanned && {color: 'green'},
                           ]}>
                           {this.state.scanned
@@ -236,7 +266,10 @@ class Signup extends Component {
                         justifyContent: 'center',
                         marginTop: 15,
                       }}>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.familyName && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>УРГЫН ОВОГ</Text>
                         <TextInput
                           onChangeText={(t) => this.setState({familyName: t})}
@@ -244,7 +277,10 @@ class Signup extends Component {
                           style={styles.input}
                         />
                       </View>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.surName && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>ОВОГ</Text>
                         <TextInput
                           onChangeText={(t) => this.setState({surName: t})}
@@ -252,7 +288,10 @@ class Signup extends Component {
                           style={styles.input}
                         />
                       </View>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.givenName && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>НЭР</Text>
                         <TextInput
                           onChangeText={(t) => this.setState({givenName: t})}
@@ -307,7 +346,10 @@ class Signup extends Component {
                           }}
                         />
                       </View>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.registrationNumber && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>РЕГИСТРИЙН ДУГААР</Text>
                         <TextInput
                           placeholder="АА00000000"
@@ -318,7 +360,10 @@ class Signup extends Component {
                           style={styles.input}
                         />
                       </View>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.phoneNumber && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>УТАСНЫ ДУГААР</Text>
                         <TextInput
                           onChangeText={(t) => this.setState({phoneNumber: t})}
@@ -327,7 +372,10 @@ class Signup extends Component {
                           style={styles.input}
                         />
                       </View>
-                      <View style={styles.item}>
+                      <View style={[
+                          styles.item,
+                          this.state.errors.password && {borderBottomColor: 'red'},
+                        ]}>
                         <Text style={styles.itemText}>НУУЦ ҮГ</Text>
                         <TextInput
                           onChangeText={(t) => this.setState({password: t})}
@@ -370,6 +418,7 @@ class Signup extends Component {
                             color: 'grey',
                             marginTop: 5,
                           },
+                          this.state.errors.CardFront && {color: 'red'},
                           this.state.CardFront && {color: 'green'},
                         ]}>
                         {this.state.CardFront
